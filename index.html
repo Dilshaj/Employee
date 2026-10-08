@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>DILSHAJ INFOTECH - Employee ID Management</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       HEADER
+       ========================= -->
+
+  <header class="top-header">
+
+    <div class="header-left">
+
+      <img
+        src="assets/logo.svg"
+        class="company-logo"
+        alt="DILSHAJ INFOTECH"
+      >
+
+      <div class="company-info">
+
+        <h1>DILSHAJ INFOTECH</h1>
+
+        <p>
+          Employee ID Management
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="headerActions"
+      class="header-actions hidden"
+    >
+
+      <div class="admin-user">
+
+        <span class="admin-dot"></span>
+
+        Administrator
+
+      </div>
+
+      <button
+        class="logout-button"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================
+       LOGIN
+       ========================= -->
+
+  <section
+    id="loginSection"
+    class="login-section"
+  >
+
+    <div class="login-card">
+
+      <div class="login-logo">
+
+        <img
+          src="assets/logo.svg"
+          alt="DILSHAJ INFOTECH"
+        >
+
+      </div>
+
+      <h2>
+        Admin Login
+      </h2>
+
+      <p class="login-description">
+        Sign in to manage employee ID cards.
+      </p>
+
+      <label for="adminPin">
+        Admin PIN
+      </label>
+
+      <input
+        type="password"
+        id="adminPin"
+        placeholder="Enter Admin PIN"
+        autocomplete="current-password"
+      >
+
+      <button
+        class="login-button"
+        onclick="login()"
+      >
+        Login
+      </button>
+
+      <p
+        id="loginMessage"
+        class="message"
+      ></p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       ADMIN DASHBOARD
+       ========================= -->
+
+  <section
+    id="adminSection"
+    class="dashboard hidden"
+  >
+
+    <!-- DASHBOARD HEADER -->
+
+    <div class="page-title">
+
+      <div>
+
+        <span class="page-label">
+          ADMIN DASHBOARD
+        </span>
+
+        <h2>
+          Employee ID Management
+        </h2>
+
+        <p>
+          Create, manage and verify employee identification cards.
+        </p>
+
+      </div>
+
+
+      <div class="dashboard-stats">
+
+        <div class="dashboard-stat">
+
+          <div class="stat-icon">
+            👥
+          </div>
+
+          <div>
+
+            <strong id="employeeCount">
+              0
+            </strong>
+
+            <span>
+              Total Employees
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat active-stat">
+
+          <div class="stat-icon">
+            ✓
+          </div>
+
+          <div>
+
+            <strong id="activeEmployeeCount">
+              0
+            </strong>
+
+            <span>
+              Active Employees
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         FORM + ID CARD
+         ========================= -->
+
+    <div class="main-grid">
+
+
+      <!-- CREATE EMPLOYEE -->
+
+      <div class="form-card">
+
+        <div class="card-title">
+
+          <div class="title-number">
+            01
+          </div>
+
+          <div>
+
+            <h3 id="formTitle">
+              Create Employee
+            </h3>
+
+            <p>
+              Enter employee details to generate an ID card.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <form id="employeeForm">
+
+          <input
+            type="hidden"
+            id="originalEmployeeNo"
+          >
+
+
+          <!-- EMPLOYEE NO + NAME -->
+
+          <div class="form-row">
+
+            <div class="form-group">
+
+              <label for="employeeNo">
+                Employee No
+                <span>*</span>
+              </label>
+
+              <input
+                id="employeeNo"
+                required
+                placeholder="DIT22025"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="name">
+                Employee Name
+                <span>*</span>
+              </label>
+
+              <input
+                id="name"
+                required
+                placeholder="Employee full name"
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- DESIGNATION + DEPARTMENT -->
+
+          <div class="form-row">
+
+            <div class="form-group">
+
+              <label for="designation">
+                Designation
+                <span>*</span>
+              </label>
+
+              <input
+                id="designation"
+                required
+                placeholder="e.g. DevOps Engineer"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="department">
+                Department
+              </label>
+
+              <input
+                id="department"
+                placeholder="e.g. Engineering"
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- EMAIL + PHONE -->
+
+          <div class="form-row">
+
+            <div class="form-group">
+
+              <label for="email">
+                Email
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                placeholder="employee@company.com"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="phone">
+                Phone
+              </label>
+
+              <input
+                id="phone"
+                placeholder="+91 98765 43210"
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- DATE + STATUS -->
+
+          <div class="form-row">
+
+            <div class="form-group">
+
+              <label for="joiningDate">
+                Joining Date
+              </label>
+
+              <input
+                type="date"
+                id="joiningDate"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="status">
+                Status
+              </label>
+
+              <select id="status">
+
+                <option value="Active">
+                  Active
+                </option>
+
+                <option value="Inactive">
+                  Inactive
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <!-- PHOTO -->
+
+          <div class="photo-section">
+
+            <label for="photo">
+              Employee Photo
+            </label>
+
+            <div class="photo-upload">
+
+              <div class="photo-upload-icon">
+                📷
+              </div>
+
+              <div class="photo-upload-content">
+
+                <input
+                  type="file"
+                  id="photo"
+                  accept="image/jpeg,image/png,image/webp"
+                >
+
+                <span>
+                  JPG, PNG or WEBP • Maximum 5 MB
+                </span>
+
+              </div>
+
+            </div>
+
+            <small>
+              Leave empty while editing to keep the existing photo.
+            </small>
+
+          </div>
+
+
+          <!-- BUTTONS -->
+
+          <div class="form-actions">
+
+            <button
+              class="save-button"
+              type="submit"
+              id="saveBtn"
+            >
+              Save Employee
+            </button>
+
+            <button
+              class="clear-button"
+              type="button"
+              onclick="clearForm()"
+            >
+              Clear Form
+            </button>
+
+          </div>
+
+
+          <p
+            id="saveMessage"
+            class="message"
+          ></p>
+
+
+          <!-- SECURITY -->
+
+          <div class="security-box">
+
+            <span class="security-icon">
+              🔐
+            </span>
+
+            <div>
+
+              <strong>
+                Secure Employee Verification
+              </strong>
+
+              <p>
+                Each employee receives a unique secure UUID.
+                The QR code contains only the verification URL.
+              </p>
+
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+
+      <!-- =========================
+           ID CARD PREVIEW
+           ========================= -->
+
+      <div class="preview-section">
+
+        <div class="preview-header">
+
+          <div>
+
+            <span class="page-label">
+              PREVIEW
+            </span>
+
+            <h3>
+              Generated ID Card
+            </h3>
+
+          </div>
+
+
+          <div class="preview-actions">
+
+            <button
+              type="button"
+              onclick="printCard()"
+            >
+              🖨 Print
+            </button>
+
+            <button
+              type="button"
+              onclick="copyQrLink()"
+            >
+              🔗 Copy QR
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- ID CARD -->
+
+        <div
+          id="idCard"
+          class="employee-id-card hidden"
+        >
+
+          <!-- HEADER -->
+
+          <div class="id-card-header">
+
+            <img
+              src="assets/logo.svg"
+              class="id-card-logo"
+              alt="DILSHAJ INFOTECH"
+            >
+
+            <div class="id-company">
+
+              <strong>
+                DILSHAJ
+              </strong>
+
+              <span>
+                INFOTECH
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- BODY -->
+
+          <div class="id-card-body">
+
+
+            <!-- PHOTO -->
+
+            <div
+              id="cardPhotoContainer"
+              class="employee-photo-frame"
+            >
+
+              <div
+                id="cardPhotoPlaceholder"
+                class="photo-placeholder"
+              >
+
+                <div class="photo-placeholder-icon">
+                  👤
+                </div>
+
+                <span>
+                  Employee Photo
+                </span>
+
+              </div>
+
+
+              <img
+                id="cardPhoto"
+                class="employee-photo hidden"
+                alt="Employee Photo"
+              >
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <h2
+              id="cardName"
+              class="employee-card-name"
+            >
+              Employee Name
+            </h2>
+
+
+            <!-- DESIGNATION -->
+
+            <div
+              id="cardDesignation"
+              class="employee-card-designation"
+            >
+              DESIGNATION
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="employee-details">
+
+              <div class="detail-row">
+
+                <span>
+                  Employee No
+                </span>
+
+                <strong
+                  id="cardEmployeeNo"
+                >
+                  —
+                </strong>
+
+              </div>
+
+
+              <div class="detail-row">
+
+                <span>
+                  Department
+                </span>
+
+                <strong
+                  id="cardDepartment"
+                >
+                  —
+                </strong>
+
+              </div>
+
+
+              <div class="detail-row">
+
+                <span>
+                  Joining Date
+                </span>
+
+                <strong
+                  id="cardJoiningDate"
+                >
+                  —
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- QR -->
+
+            <div class="qr-container">
+
+              <canvas
+                id="qrCanvas"
+              ></canvas>
+
+              <p>
+                Scan to verify employee
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- FOOTER -->
+
+          <div class="id-card-footer">
+            DILSHAJ INFOTECH
+          </div>
+
+        </div>
+
+
+        <!-- EMPTY -->
+
+        <div
+          id="emptyCard"
+          class="empty-preview"
+        >
+
+          <div class="empty-icon">
+            ID
+          </div>
+
+          <h4>
+            No ID card generated yet
+          </h4>
+
+          <p>
+            Save an employee or select an employee
+            from the table to see the ID card here.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         EMPLOYEE TABLE
+         ========================= -->
+
+    <div class="employees-card">
+
+      <div class="employees-header">
+
+        <div class="title-number">
+          02
+        </div>
+
+        <div>
+
+          <h3>
+            Employees
+          </h3>
+
+          <p>
+            Manage existing employee ID records.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="table-container">
+
+        <div class="employee-table employee-table-header">
+
+          <span>
+            Employee No
+          </span>
+
+          <span>
+            Name
+          </span>
+
+          <span>
+            Designation
+          </span>
+
+          <span>
+            Department
+          </span>
+
+          <span>
+            Status
+          </span>
+
+          <span>
+            Actions
+          </span>
+
+        </div>
+
+
+        <div id="employeeList"></div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- TOAST -->
+
+  <div
+    id="toast"
+    class="toast hidden"
+  ></div>
+
+
+  <!-- QR LIBRARY -->
+
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+
+  <!-- YOUR CONFIG -->
+
+  <script src="js/config.js"></script>
+
+  <!-- APPLICATION -->
+
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>
