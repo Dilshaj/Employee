@@ -491,14 +491,24 @@ async function loadEmployees() {
    RENDER TABLE
    ========================================================= */
 
-function renderEmployees() {
+function renderEmployees(listToRender) {
+
+  const currentList =
+    listToRender ||
+    employees;
+
 
   const list =
     $('employeeList');
 
 
+  if (!list) {
+    return;
+  }
+
+
   if (
-    !employees.length
+    !currentList.length
   ) {
 
     list.innerHTML = `
@@ -512,7 +522,7 @@ function renderEmployees() {
 
 
   list.innerHTML =
-    employees
+    currentList
       .map(
         employee => {
 
@@ -576,7 +586,7 @@ function renderEmployees() {
                   class="small-btn view-btn"
                   onclick="showEmployeeCardByNo('${escapeAttr(employee.employeeNo)}')"
                 >
-                  View
+                  View ID
                 </button>
 
                 <button
@@ -603,6 +613,44 @@ function renderEmployees() {
 }
 
 
+function handleEmployeeSearch() {
+
+  const input =
+    $('employeeSearchInput');
+
+
+  const query =
+    (input ? input.value : '')
+      .toLowerCase()
+      .trim();
+
+
+  if (!query) {
+    renderEmployees(employees);
+    return;
+  }
+
+
+  const filtered =
+    employees.filter(
+      emp => {
+        const name = (emp.name || '').toLowerCase();
+        const id = (emp.employeeNo || '').toLowerCase();
+        const dept = (emp.department || '').toLowerCase();
+        const desig = (emp.designation || '').toLowerCase();
+
+        return name.includes(query) ||
+               id.includes(query) ||
+               dept.includes(query) ||
+               desig.includes(query);
+      }
+    );
+
+
+  renderEmployees(filtered);
+}
+
+
 /* =========================================================
    STATS
    ========================================================= */
@@ -625,14 +673,40 @@ function updateStats() {
     ).length;
 
 
-  $('employeeCount')
-    .textContent =
-    total;
+  const departments =
+    new Set(
+      employees
+        .map(e => (e.department || '').trim())
+        .filter(Boolean)
+    ).size;
 
 
-  $('activeEmployeeCount')
-    .textContent =
-    active;
+  if ($('employeeCount')) {
+    $('employeeCount')
+      .textContent =
+      total;
+  }
+
+
+  if ($('activeEmployeeCount')) {
+    $('activeEmployeeCount')
+      .textContent =
+      active;
+  }
+
+
+  if ($('departmentCount')) {
+    $('departmentCount')
+      .textContent =
+      departments;
+  }
+
+
+  if ($('tabEmployeeBadge')) {
+    $('tabEmployeeBadge')
+      .textContent =
+      total;
+  }
 }
 
 
@@ -1018,6 +1092,9 @@ function editEmployee(
   );
 
 
+  switchPortalTab('studio');
+
+
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
@@ -1116,6 +1193,116 @@ async function deleteEmployee(
 
 
 /* =========================================================
+   PORTAL TABS & STUDIO NAVIGATION
+   ========================================================= */
+
+function switchPortalTab(tab) {
+
+  const directoryTab =
+    $('tabContentDirectory');
+
+
+  const studioTab =
+    $('tabContentStudio');
+
+
+  const btnDirectory =
+    $('tabBtnDirectory');
+
+
+  const btnStudio =
+    $('tabBtnStudio');
+
+
+  if (tab === 'studio') {
+
+    if (directoryTab) {
+      directoryTab
+        .classList
+        .add('hidden');
+    }
+
+
+    if (studioTab) {
+      studioTab
+        .classList
+        .remove('hidden');
+    }
+
+
+    if (btnDirectory) {
+      btnDirectory
+        .classList
+        .remove('active');
+
+      btnDirectory
+        .setAttribute('aria-selected', 'false');
+    }
+
+
+    if (btnStudio) {
+      btnStudio
+        .classList
+        .add('active');
+
+      btnStudio
+        .setAttribute('aria-selected', 'true');
+    }
+
+  } else {
+
+    if (directoryTab) {
+      directoryTab
+        .classList
+        .remove('hidden');
+    }
+
+
+    if (studioTab) {
+      studioTab
+        .classList
+        .add('hidden');
+    }
+
+
+    if (btnDirectory) {
+      btnDirectory
+        .classList
+        .add('active');
+
+      btnDirectory
+        .setAttribute('aria-selected', 'true');
+    }
+
+
+    if (btnStudio) {
+      btnStudio
+        .classList
+        .remove('active');
+
+      btnStudio
+        .setAttribute('aria-selected', 'false');
+    }
+  }
+}
+
+
+function openCreateEmployeeStudio() {
+
+  clearForm();
+
+  switchPortalTab('studio');
+
+  setTimeout(() => {
+    const input = $('employeeNo');
+    if (input) {
+      input.focus();
+    }
+  }, 100);
+}
+
+
+/* =========================================================
    SHOW EMPLOYEE
    ========================================================= */
 
@@ -1147,6 +1334,9 @@ function showEmployeeCardByNo(
   showEmployeeCard(
     employee
   );
+
+
+  switchPortalTab('studio');
 }
 
 
@@ -1208,6 +1398,25 @@ function showEmployeeCard(
     );
 
 
+  const isInactive = (employee.status || '').toLowerCase() === 'inactive';
+  const statusChip = $('cardStatusChip');
+  const statusText = $('cardStatusText');
+  if (statusChip && statusText) {
+    statusText.textContent = isInactive ? 'INACTIVE' : 'ACTIVE';
+    if (isInactive) {
+      statusChip.classList.add('inactive');
+    } else {
+      statusChip.classList.remove('inactive');
+    }
+  }
+
+  if ($('cardBackName')) $('cardBackName').textContent = employee.name || '—';
+  if ($('cardBackEmployeeNo')) $('cardBackEmployeeNo').textContent = employee.employeeNo || '—';
+  if ($('cardBackPhone')) $('cardBackPhone').textContent = employee.phone || '—';
+  if ($('cardBackEmail')) $('cardBackEmail').textContent = employee.email || '—';
+  if ($('cardBackBarcodeText')) $('cardBackBarcodeText').textContent = '* ' + (employee.employeeNo || 'DIT00000') + ' *';
+
+
   updateCardPhoto(
     employee.photoUrl
   );
@@ -1216,6 +1425,30 @@ function showEmployeeCard(
   generateQr(
     employee.token
   );
+}
+
+
+/* =========================================================
+   CARD SIDE SWITCHER
+   ========================================================= */
+
+function switchCardSide(side) {
+  const container = $('idCard');
+  if (!container) return;
+
+  container.classList.remove('show-front', 'show-back', 'show-both');
+  container.classList.add('show-' + side);
+
+  ['Front', 'Back', 'Both'].forEach(s => {
+    const btn = $('btnSide' + s);
+    if (btn) {
+      if (s.toLowerCase() === side.toLowerCase()) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+  });
 }
 
 
@@ -1366,7 +1599,7 @@ function generateQr(
       url,
 
     size:
-      125,
+      85,
 
     level:
       'H',
@@ -1944,6 +2177,29 @@ function updateUnsavedPreview() {
           joiningDate
         )
       : '—';
+
+
+  const status = $('status') ? $('status').value : 'Active';
+  const isInactive = status.toLowerCase() === 'inactive';
+  const statusChip = $('cardStatusChip');
+  const statusText = $('cardStatusText');
+  if (statusChip && statusText) {
+    statusText.textContent = isInactive ? 'INACTIVE' : 'ACTIVE';
+    if (isInactive) {
+      statusChip.classList.add('inactive');
+    } else {
+      statusChip.classList.remove('inactive');
+    }
+  }
+
+  const phone = $('phone') ? $('phone').value.trim() : '';
+  const email = $('email') ? $('email').value.trim() : '';
+
+  if ($('cardBackName')) $('cardBackName').textContent = name || '—';
+  if ($('cardBackEmployeeNo')) $('cardBackEmployeeNo').textContent = employeeNo || '—';
+  if ($('cardBackPhone')) $('cardBackPhone').textContent = phone || '—';
+  if ($('cardBackEmail')) $('cardBackEmail').textContent = email || '—';
+  if ($('cardBackBarcodeText')) $('cardBackBarcodeText').textContent = '* ' + (employeeNo || 'DIT00000') + ' *';
 }
 
 

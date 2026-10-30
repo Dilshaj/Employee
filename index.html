@@ -1,48 +1,36 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>DILSHAJ INFOTECH - Employee ID Management</title>
 
   <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
 
   <!-- =========================
+
        HEADER
+
        ========================= -->
 
   <header class="top-header">
 
     <div class="header-left">
 
-      <img
-        src="assets/logo.svg"
-        class="company-logo"
-        alt="DILSHAJ INFOTECH"
-      >
-
-      <div class="company-info">
-
-        <h1>DILSHAJ INFOTECH</h1>
-
-        <p>
-          Employee ID Management
-        </p>
-
-      </div>
+      <img src="assets/logo.png" class="company-logo" alt="DILSHAJ INFOTECH">
 
     </div>
 
-
-    <div
-      id="headerActions"
-      class="header-actions hidden"
-    >
+    <div id="headerActions" class="header-actions hidden">
 
       <div class="admin-user">
 
@@ -52,663 +40,240 @@
 
       </div>
 
-      <button
-        class="logout-button"
-        onclick="logout()"
-      >
+      <button class="logout-button" onclick="logout()">
+
         Logout
+
       </button>
 
     </div>
 
   </header>
 
-
   <!-- =========================
+
        LOGIN
+
        ========================= -->
 
-  <section
-    id="loginSection"
-    class="login-section"
-  >
+  <section id="loginSection" class="login-section">
 
     <div class="login-card">
 
       <div class="login-logo">
 
-        <img
-          src="assets/logo.svg"
-          alt="DILSHAJ INFOTECH"
-        >
+        <img src="assets/logo.png" alt="DILSHAJ INFOTECH">
 
       </div>
 
       <h2>
+
         Admin Login
+
       </h2>
 
       <p class="login-description">
+
         Sign in to manage employee ID cards.
+
       </p>
 
       <label for="adminPin">
+
         Admin PIN
+
       </label>
 
-      <input
-        type="password"
-        id="adminPin"
-        placeholder="Enter Admin PIN"
-        autocomplete="current-password"
-      >
+      <input type="password" id="adminPin" placeholder="Enter Admin PIN" autocomplete="current-password">
 
-      <button
-        class="login-button"
-        onclick="login()"
-      >
+      <button class="login-button" onclick="login()">
+
         Login
+
       </button>
 
-      <p
-        id="loginMessage"
-        class="message"
-      ></p>
+      <p id="loginMessage" class="message"></p>
 
     </div>
 
   </section>
 
-
   <!-- =========================
+
        ADMIN DASHBOARD
+
        ========================= -->
 
-  <section
-    id="adminSection"
-    class="dashboard hidden"
-  >
+  <section id="adminSection" class="dashboard hidden">
 
-    <!-- DASHBOARD HEADER -->
+    <!-- PORTAL HEADER WITH TITLE & NAVIGATION TABS -->
 
-    <div class="page-title">
+    <div class="portal-header-bar">
 
-      <div>
+      <div class="portal-title-block">
 
-        <span class="page-label">
-          ADMIN DASHBOARD
-        </span>
+        <h2>Employee ID Management</h2>
 
-        <h2>
-          Employee ID Management
-        </h2>
-
-        <p>
-          Create, manage and verify employee identification cards.
-        </p>
+        <p>Manage employee records, view directory, and generate official ID cards.</p>
 
       </div>
 
+      <!-- NAVIGATION TABS -->
 
-      <div class="dashboard-stats">
+      <nav class="portal-nav-tabs" role="tablist">
 
-        <div class="dashboard-stat">
+        <button type="button" class="portal-tab active" id="tabBtnDirectory" onclick="switchPortalTab('directory')"
+          role="tab" aria-selected="true">
 
-          <div class="stat-icon">
-            👥
-          </div>
+          <span class="tab-icon">👥</span>
 
-          <div>
+          <span>Employee Directory</span>
 
-            <strong id="employeeCount">
-              0
-            </strong>
+          <span class="tab-badge" id="tabEmployeeBadge">0</span>
 
-            <span>
-              Total Employees
-            </span>
+        </button>
 
-          </div>
+        <button type="button" class="portal-tab" id="tabBtnStudio" onclick="switchPortalTab('studio')" role="tab"
+          aria-selected="false">
 
-        </div>
+          <span class="tab-icon">🪪</span>
 
+          <span>ID Card Studio</span>
 
-        <div class="dashboard-stat active-stat">
+        </button>
 
-          <div class="stat-icon">
-            ✓
-          </div>
-
-          <div>
-
-            <strong id="activeEmployeeCount">
-              0
-            </strong>
-
-            <span>
-              Active Employees
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
+      </nav>
 
     </div>
 
+    <!-- ==============================================
 
-    <!-- =========================
-         FORM + ID CARD
-         ========================= -->
+         TAB 1: EMPLOYEE DIRECTORY (DATA FIRST)
 
-    <div class="main-grid">
+         ============================================== -->
 
+    <div id="tabContentDirectory" class="tab-content active-tab-content">
 
-      <!-- CREATE EMPLOYEE -->
+      <!-- STATS OVERVIEW ROW -->
 
-      <div class="form-card">
+      <div class="dashboard-stats-row">
 
-        <div class="card-title">
+        <div class="stat-card">
 
-          <div class="title-number">
-            01
-          </div>
+          <div class="stat-icon-wrap primary-icon">👥</div>
 
-          <div>
+          <div class="stat-meta">
 
-            <h3 id="formTitle">
-              Create Employee
-            </h3>
+            <span class="stat-title">Total Records</span>
 
-            <p>
-              Enter employee details to generate an ID card.
-            </p>
+            <strong id="employeeCount" class="stat-value">0</strong>
 
           </div>
 
         </div>
 
+        <div class="stat-card">
 
-        <form id="employeeForm">
+          <div class="stat-icon-wrap success-icon">✓</div>
 
-          <input
-            type="hidden"
-            id="originalEmployeeNo"
-          >
+          <div class="stat-meta">
 
+            <span class="stat-title">Active IDs</span>
 
-          <!-- EMPLOYEE NO + NAME -->
-
-          <div class="form-row">
-
-            <div class="form-group">
-
-              <label for="employeeNo">
-                Employee No
-                <span>*</span>
-              </label>
-
-              <input
-                id="employeeNo"
-                required
-                placeholder="DIT22025"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="name">
-                Employee Name
-                <span>*</span>
-              </label>
-
-              <input
-                id="name"
-                required
-                placeholder="Employee full name"
-              >
-
-            </div>
+            <strong id="activeEmployeeCount" class="stat-value">0</strong>
 
           </div>
 
+        </div>
 
-          <!-- DESIGNATION + DEPARTMENT -->
+        <div class="stat-card">
 
-          <div class="form-row">
+          <div class="stat-icon-wrap accent-icon">🏢</div>
 
-            <div class="form-group">
+          <div class="stat-meta">
 
-              <label for="designation">
-                Designation
-                <span>*</span>
-              </label>
+            <span class="stat-title">Departments</span>
 
-              <input
-                id="designation"
-                required
-                placeholder="e.g. DevOps Engineer"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="department">
-                Department
-              </label>
-
-              <input
-                id="department"
-                placeholder="e.g. Engineering"
-              >
-
-            </div>
+            <strong id="departmentCount" class="stat-value">0</strong>
 
           </div>
 
+        </div>
 
-          <!-- EMAIL + PHONE -->
+        <div class="stat-card stat-action-card" onclick="openCreateEmployeeStudio()">
 
-          <div class="form-row">
+          <div class="stat-action-btn">
 
-            <div class="form-group">
+            <span class="plus-sign">+</span>
 
-              <label for="email">
-                Email
-              </label>
-
-              <input
-                type="email"
-                id="email"
-                placeholder="employee@company.com"
-              >
-
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="phone">
-                Phone
-              </label>
-
-              <input
-                id="phone"
-                placeholder="+91 98765 43210"
-              >
-
-            </div>
+            <span>New Employee ID</span>
 
           </div>
 
+        </div>
 
-          <!-- DATE + STATUS -->
+      </div>
 
-          <div class="form-row">
+      <!-- EMPLOYEES TABLE CARD (FULL WIDTH) -->
 
-            <div class="form-group">
+      <div class="employees-card">
 
-              <label for="joiningDate">
-                Joining Date
-              </label>
+        <div class="employees-header">
 
-              <input
-                type="date"
-                id="joiningDate"
-              >
+          <div class="table-title-area">
 
-            </div>
-
-
-            <div class="form-group">
-
-              <label for="status">
-                Status
-              </label>
-
-              <select id="status">
-
-                <option value="Active">
-                  Active
-                </option>
-
-                <option value="Inactive">
-                  Inactive
-                </option>
-
-              </select>
-
-            </div>
-
-          </div>
-
-
-          <!-- PHOTO -->
-
-          <div class="photo-section">
-
-            <label for="photo">
-              Employee Photo
-            </label>
-
-            <div class="photo-upload">
-
-              <div class="photo-upload-icon">
-                📷
-              </div>
-
-              <div class="photo-upload-content">
-
-                <input
-                  type="file"
-                  id="photo"
-                  accept="image/jpeg,image/png,image/webp"
-                >
-
-                <span>
-                  JPG, PNG or WEBP • Maximum 5 MB
-                </span>
-
-              </div>
-
-            </div>
-
-            <small>
-              Leave empty while editing to keep the existing photo.
-            </small>
-
-          </div>
-
-
-          <!-- BUTTONS -->
-
-          <div class="form-actions">
-
-            <button
-              class="save-button"
-              type="submit"
-              id="saveBtn"
-            >
-              Save Employee
-            </button>
-
-            <button
-              class="clear-button"
-              type="button"
-              onclick="clearForm()"
-            >
-              Clear Form
-            </button>
-
-          </div>
-
-
-          <p
-            id="saveMessage"
-            class="message"
-          ></p>
-
-
-          <!-- SECURITY -->
-
-          <div class="security-box">
-
-            <span class="security-icon">
-              🔐
-            </span>
+            <div class="title-number">01</div>
 
             <div>
 
-              <strong>
-                Secure Employee Verification
-              </strong>
+              <h3>Employee Directory</h3>
 
-              <p>
-                Each employee receives a unique secure UUID.
-                The QR code contains only the verification URL.
-              </p>
+              <p>Search, view, edit and print ID cards for all employees.</p>
 
             </div>
 
           </div>
 
-        </form>
+          <div class="table-top-actions">
 
-      </div>
+            <div class="search-input-wrap">
 
+              <span class="search-icon">🔍</span>
 
-      <!-- =========================
-           ID CARD PREVIEW
-           ========================= -->
+              <input type="text" id="employeeSearchInput" placeholder="Search by name, ID, or department..."
+                oninput="handleEmployeeSearch()">
 
-      <div class="preview-section">
+            </div>
 
-        <div class="preview-header">
+            <button type="button" class="create-emp-btn" onclick="openCreateEmployeeStudio()">
 
-          <div>
+              <span>+</span> Create Employee
 
-            <span class="page-label">
-              PREVIEW
-            </span>
-
-            <h3>
-              Generated ID Card
-            </h3>
-
-          </div>
-
-
-          <div class="preview-actions">
-
-            <button
-              type="button"
-              onclick="printCard()"
-            >
-              🖨 Print
-            </button>
-
-            <button
-              type="button"
-              onclick="copyQrLink()"
-            >
-              🔗 Copy QR
             </button>
 
           </div>
 
         </div>
 
+        <div class="table-container">
 
-        <!-- ID CARD -->
+          <div class="employee-table employee-table-header">
 
-        <div
-          id="idCard"
-          class="employee-id-card hidden"
-        >
+            <span>Employee No</span>
 
-          <!-- HEADER -->
+            <span>Name</span>
 
-          <div class="id-card-header">
+            <span>Designation</span>
 
-            <img
-              src="assets/logo.svg"
-              class="id-card-logo"
-              alt="DILSHAJ INFOTECH"
-            >
+            <span>Department</span>
 
-            <div class="id-company">
+            <span>Status</span>
 
-              <strong>
-                DILSHAJ
-              </strong>
-
-              <span>
-                INFOTECH
-              </span>
-
-            </div>
+            <span>Actions</span>
 
           </div>
 
-
-          <!-- BODY -->
-
-          <div class="id-card-body">
-
-
-            <!-- PHOTO -->
-
-            <div
-              id="cardPhotoContainer"
-              class="employee-photo-frame"
-            >
-
-              <div
-                id="cardPhotoPlaceholder"
-                class="photo-placeholder"
-              >
-
-                <div class="photo-placeholder-icon">
-                  👤
-                </div>
-
-                <span>
-                  Employee Photo
-                </span>
-
-              </div>
-
-
-              <img
-                id="cardPhoto"
-                class="employee-photo hidden"
-                alt="Employee Photo"
-              >
-
-            </div>
-
-
-            <!-- NAME -->
-
-            <h2
-              id="cardName"
-              class="employee-card-name"
-            >
-              Employee Name
-            </h2>
-
-
-            <!-- DESIGNATION -->
-
-            <div
-              id="cardDesignation"
-              class="employee-card-designation"
-            >
-              DESIGNATION
-            </div>
-
-
-            <!-- DETAILS -->
-
-            <div class="employee-details">
-
-              <div class="detail-row">
-
-                <span>
-                  Employee No
-                </span>
-
-                <strong
-                  id="cardEmployeeNo"
-                >
-                  —
-                </strong>
-
-              </div>
-
-
-              <div class="detail-row">
-
-                <span>
-                  Department
-                </span>
-
-                <strong
-                  id="cardDepartment"
-                >
-                  —
-                </strong>
-
-              </div>
-
-
-              <div class="detail-row">
-
-                <span>
-                  Joining Date
-                </span>
-
-                <strong
-                  id="cardJoiningDate"
-                >
-                  —
-                </strong>
-
-              </div>
-
-            </div>
-
-
-            <!-- QR -->
-
-            <div class="qr-container">
-
-              <canvas
-                id="qrCanvas"
-              ></canvas>
-
-              <p>
-                Scan to verify employee
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <!-- FOOTER -->
-
-          <div class="id-card-footer">
-            DILSHAJ INFOTECH
-          </div>
-
-        </div>
-
-
-        <!-- EMPTY -->
-
-        <div
-          id="emptyCard"
-          class="empty-preview"
-        >
-
-          <div class="empty-icon">
-            ID
-          </div>
-
-          <h4>
-            No ID card generated yet
-          </h4>
-
-          <p>
-            Save an employee or select an employee
-            from the table to see the ID card here.
-          </p>
+          <div id="employeeList"></div>
 
         </div>
 
@@ -716,66 +281,457 @@
 
     </div>
 
+    <!-- ==============================================
 
-    <!-- =========================
-         EMPLOYEE TABLE
-         ========================= -->
+         TAB 2: ID CARD STUDIO & GENERATOR
 
-    <div class="employees-card">
+         ============================================== -->
 
-      <div class="employees-header">
+    <div id="tabContentStudio" class="tab-content hidden">
 
-        <div class="title-number">
-          02
+      <!-- MAIN GRID (FORM + PREVIEW) -->
+
+      <div class="main-grid">
+
+        <!-- CREATE EMPLOYEE FORM -->
+
+        <div class="form-card">
+
+          <div class="card-title">
+            <div class="card-title-left">
+              <div class="title-number">01</div>
+              <div>
+                <h3 id="formTitle">Create Employee</h3>
+                <p>Enter employee details to generate an ID card.</p>
+              </div>
+            </div>
+          </div>
+
+          <form id="employeeForm">
+
+            <input type="hidden" id="originalEmployeeNo">
+
+            <!-- EMPLOYEE NO + NAME -->
+
+            <div class="form-row">
+
+              <div class="form-group">
+
+                <label for="employeeNo">Employee No <span>*</span></label>
+
+                <input id="employeeNo" required placeholder="DIT22025">
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="name">Employee Name <span>*</span></label>
+
+                <input id="name" required placeholder="Employee full name">
+
+              </div>
+
+            </div>
+
+            <!-- DESIGNATION + DEPARTMENT -->
+
+            <div class="form-row">
+
+              <div class="form-group">
+
+                <label for="designation">Designation <span>*</span></label>
+
+                <input id="designation" required placeholder="e.g. DevOps Engineer">
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="department">Department</label>
+
+                <input id="department" placeholder="e.g. Engineering">
+
+              </div>
+
+            </div>
+
+            <!-- EMAIL + PHONE -->
+
+            <div class="form-row">
+
+              <div class="form-group">
+
+                <label for="email">Email</label>
+
+                <input type="email" id="email" placeholder="employee@company.com">
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="phone">Phone</label>
+
+                <input id="phone" placeholder="+91 98765 43210">
+
+              </div>
+
+            </div>
+
+            <!-- DATE + STATUS -->
+
+            <div class="form-row">
+
+              <div class="form-group">
+
+                <label for="joiningDate">Joining Date</label>
+
+                <input type="date" id="joiningDate">
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="status">Status</label>
+
+                <select id="status">
+
+                  <option value="Active">Active</option>
+
+                  <option value="Inactive">Inactive</option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+            <!-- PHOTO -->
+
+            <div class="photo-section">
+
+              <label for="photo">Employee Photo</label>
+
+              <div class="photo-upload">
+
+                <div class="photo-upload-icon">📷</div>
+
+                <div class="photo-upload-content">
+
+                  <input type="file" id="photo" accept="image/jpeg,image/png,image/webp">
+
+                  <span>JPG, PNG or WEBP • Maximum 5 MB</span>
+
+                </div>
+
+              </div>
+
+              <small>Leave empty while editing to keep the existing photo.</small>
+
+            </div>
+
+            <!-- BUTTONS -->
+
+            <div class="form-actions">
+
+              <button class="save-button" type="submit" id="saveBtn">Save Employee</button>
+
+              <button class="clear-button" type="button" onclick="clearForm()">Clear Form</button>
+
+            </div>
+
+            <p id="saveMessage" class="message"></p>
+
+            <!-- SECURITY -->
+
+            <div class="security-box">
+
+              <span class="security-icon">🔐</span>
+
+              <div>
+
+                <strong>Secure Employee Verification</strong>
+
+                <p>Each employee receives a unique secure UUID. The QR code contains only the verification URL.</p>
+
+              </div>
+
+            </div>
+
+          </form>
+
         </div>
 
-        <div>
+        <!-- ID CARD PREVIEW -->
+        <div class="preview-section preview-card">
+          <div class="card-title preview-card-header">
+            <div class="preview-title-left">
+              <div class="title-number">02</div>
+              <div>
+                <h3>Card Preview</h3>
+                <p>Front &amp; back verification pass.</p>
+              </div>
+            </div>
 
-          <h3>
-            Employees
-          </h3>
+            <div class="preview-actions">
 
-          <p>
-            Manage existing employee ID records.
-          </p>
+              <div class="card-side-toggle" role="group" aria-label="Card side switcher">
+
+                <button type="button" class="side-btn active" id="btnSideFront"
+                  onclick="switchCardSide('front')">Front</button>
+
+                <button type="button" class="side-btn" id="btnSideBack" onclick="switchCardSide('back')">Back</button>
+
+                <button type="button" class="side-btn" id="btnSideBoth" onclick="switchCardSide('both')">Both</button>
+
+              </div>
+
+              <button type="button" onclick="printCard()">🖨 Print</button>
+
+              <button type="button" onclick="copyQrLink()">🔗 Copy QR</button>
+
+            </div>
+
+          </div>
+
+          <!-- ID CARD CONTAINER -->
+
+          <div id="idCard" class="id-card-container hidden show-front">
+
+            <!-- FRONT SIDE -->
+
+            <div class="employee-id-card id-card-front">
+
+              <div class="lanyard-slot" title="Lanyard slot"></div>
+
+              <div class="id-card-header">
+
+                <img src="assets/logo.png" class="id-card-logo" alt="DILSHAJ INFOTECH">
+
+              </div>
+
+              <div class="id-card-body">
+
+                <div id="cardPhotoContainer" class="employee-photo-frame">
+                  <div class="photo-inner-wrap">
+                    <div id="cardPhotoPlaceholder" class="photo-placeholder">
+                      <div class="photo-placeholder-icon">👤</div>
+                      <span>Employee Photo</span>
+                    </div>
+                    <img id="cardPhoto" class="employee-photo hidden" alt="Employee Photo">
+                  </div>
+                  <div class="status-badge-chip" id="cardStatusChip">
+
+                    <span class="status-dot-pulse"></span>
+
+                    <span id="cardStatusText">ACTIVE</span>
+
+                  </div>
+
+                </div>
+
+                <h2 id="cardName" class="employee-card-name">Employee Name</h2>
+
+                <div class="designation-wrapper">
+
+                  <span id="cardDesignation" class="employee-card-designation">DESIGNATION</span>
+
+                </div>
+
+                <div class="employee-details-grid">
+
+                  <div class="detail-card-item">
+
+                    <span class="detail-lbl">Employee ID</span>
+
+                    <strong id="cardEmployeeNo" class="detail-val val-primary">—</strong>
+
+                  </div>
+
+                  <div class="detail-card-item">
+
+                    <span class="detail-lbl">Department</span>
+
+                    <strong id="cardDepartment" class="detail-val">—</strong>
+
+                  </div>
+
+                  <div class="detail-card-item">
+
+                    <span class="detail-lbl">Issue Date</span>
+
+                    <strong id="cardJoiningDate" class="detail-val">—</strong>
+
+                  </div>
+
+                  <div class="detail-card-item">
+
+                    <span class="detail-lbl">Badge Type</span>
+
+                    <strong class="detail-val">Permanent</strong>
+
+                  </div>
+
+                </div>
+
+                <div class="qr-compact-box">
+
+                  <div class="qr-canvas-wrap">
+
+                    <canvas id="qrCanvas"></canvas>
+
+                  </div>
+
+                  <div class="qr-compact-info">
+
+                    <div class="qr-compact-title"><span>🔒</span> Verified ID</div>
+
+                    <div class="qr-compact-sub">Scan with camera to verify official employment credentials.</div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="id-card-footer">
+
+                <span>DILSHAJ INFOTECH • EMPOWERING INTELLIGENCE</span>
+
+              </div>
+
+            </div>
+
+            <!-- BACK SIDE -->
+
+            <div class="employee-id-card id-card-back">
+
+              <div class="lanyard-slot" title="Lanyard slot"></div>
+
+              <div class="id-card-header back-card-header">
+
+                <img src="assets/logo.png" class="id-card-logo" alt="DILSHAJ INFOTECH">
+
+                <span class="back-card-badge">EMPLOYEE IDENTITY CARD</span>
+
+              </div>
+
+              <div class="id-card-body back-card-body">
+
+                <div class="back-info-card">
+
+                  <div class="back-row">
+
+                    <span class="b-lbl">Full Name</span>
+
+                    <strong id="cardBackName" class="b-val">—</strong>
+
+                  </div>
+
+                  <div class="back-row">
+
+                    <span class="b-lbl">Employee ID</span>
+
+                    <strong id="cardBackEmployeeNo" class="b-val val-primary">—</strong>
+
+                  </div>
+
+                  <div class="back-row">
+
+                    <span class="b-lbl">Mobile Phone</span>
+
+                    <strong id="cardBackPhone" class="b-val">—</strong>
+
+                  </div>
+
+                  <div class="back-row">
+
+                    <span class="b-lbl">Corporate Email</span>
+
+                    <strong id="cardBackEmail" class="b-val">—</strong>
+
+                  </div>
+
+                </div>
+
+                <div class="card-terms-box">
+
+                  <div class="terms-title">TERMS &amp; CONDITIONS</div>
+
+                  <ul class="terms-list">
+
+                    <li>This card is non-transferable and remains company property.</li>
+
+                    <li>Loss or theft of this card must be reported immediately to HR.</li>
+
+                    <li>Must be visibly displayed while inside company premises.</li>
+
+                  </ul>
+
+                </div>
+
+                <div class="return-address-box">
+
+                  <div class="addr-title">IF FOUND, PLEASE RETURN TO:</div>
+
+                  <p class="addr-text">
+
+                    <strong>Dilshaj Infotech Corporate HQ</strong><br>
+
+                    Tech Park, Cyber Towers, Hyderabad, TS - 500081<br>
+
+                    Support: support@dilshajinfotech.com
+
+                  </p>
+
+                </div>
+
+                <div class="back-bottom-meta">
+
+                  <div class="barcode-card">
+
+                    <div class="barcode-lines"></div>
+
+                    <span class="barcode-text" id="cardBackBarcodeText">* DIT22025 *</span>
+
+                  </div>
+
+                  <div class="signatory-card">
+
+                    <div class="sign-script">Dilshaj HR</div>
+
+                    <div class="sign-divider"></div>
+
+                    <span class="sign-lbl">Authorized Signatory</span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="id-card-footer back-footer">
+
+                <span>WWW.DILSHAJINFOTECH.COM</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- EMPTY PREVIEW -->
+
+          <div id="emptyCard" class="empty-preview">
+
+            <div class="empty-icon">ID</div>
+
+            <h4>No ID card generated yet</h4>
+
+            <p>Save an employee or select an employee from the directory to see the ID card here.</p>
+
+          </div>
 
         </div>
-
-      </div>
-
-
-      <div class="table-container">
-
-        <div class="employee-table employee-table-header">
-
-          <span>
-            Employee No
-          </span>
-
-          <span>
-            Name
-          </span>
-
-          <span>
-            Designation
-          </span>
-
-          <span>
-            Department
-          </span>
-
-          <span>
-            Status
-          </span>
-
-          <span>
-            Actions
-          </span>
-
-        </div>
-
-
-        <div id="employeeList"></div>
 
       </div>
 
@@ -783,14 +739,9 @@
 
   </section>
 
-
   <!-- TOAST -->
 
-  <div
-    id="toast"
-    class="toast hidden"
-  ></div>
-
+  <div id="toast" class="toast hidden"></div>
 
   <!-- QR LIBRARY -->
 
