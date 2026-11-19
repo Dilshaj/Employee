@@ -451,6 +451,11 @@ async function loadEmployees() {
         ? result.employees
         : [];
 
+    console.debug('[Blood Group] Employees loaded:', employees.map(employee => ({
+      employeeNo: employee.employeeNo,
+      bloodGroup: getEmployeeBloodGroup(employee)
+    })));
+
 
     renderEmployees();
 
@@ -534,7 +539,7 @@ function renderEmployees(listToRender) {
           const statusClass =
             status
               .toLowerCase() ===
-            'active'
+              'active'
               ? 'status-active'
               : 'status-inactive';
 
@@ -544,30 +549,30 @@ function renderEmployees(listToRender) {
 
               <span class="emp-no">
                 ${escapeHtml(
-                  employee.employeeNo ||
-                  '—'
-                )}
+            employee.employeeNo ||
+            '—'
+          )}
               </span>
 
               <span class="emp-name">
                 ${escapeHtml(
-                  employee.name ||
-                  '—'
-                )}
+            employee.name ||
+            '—'
+          )}
               </span>
 
               <span>
                 ${escapeHtml(
-                  employee.designation ||
-                  '—'
-                )}
+            employee.designation ||
+            '—'
+          )}
               </span>
 
               <span>
                 ${escapeHtml(
-                  employee.department ||
-                  '—'
-                )}
+            employee.department ||
+            '—'
+          )}
               </span>
 
               <span>
@@ -640,9 +645,9 @@ function handleEmployeeSearch() {
         const desig = (emp.designation || '').toLowerCase();
 
         return name.includes(query) ||
-               id.includes(query) ||
-               dept.includes(query) ||
-               desig.includes(query);
+          id.includes(query) ||
+          dept.includes(query) ||
+          desig.includes(query);
       }
     );
 
@@ -717,7 +722,7 @@ function updateStats() {
 $('employeeForm')
   .addEventListener(
     'submit',
-    async function(event) {
+    async function (event) {
 
       event.preventDefault();
 
@@ -782,6 +787,11 @@ $('employeeForm')
               .value
               .trim(),
 
+          bloodGroup:
+            $('blood')
+              .value
+              .trim(),
+
           joiningDate:
             $('joiningDate')
               .value,
@@ -794,6 +804,13 @@ $('employeeForm')
             photo
         };
 
+        console.debug('[Blood Group] Save request:', {
+          employeeNo: data.employeeNo,
+          bloodGroup: data.bloodGroup
+        });
+        
+        console.log('Blood input value:', $('blood').value);
+        console.log('Complete save data:', data);
 
         const result =
           await apiPost({
@@ -808,6 +825,11 @@ $('employeeForm')
 
         const employee =
           result.employee;
+
+        console.debug('[Blood Group] Save response:', {
+          employeeNo: employee && employee.employeeNo,
+          bloodGroup: employee && getEmployeeBloodGroup(employee)
+        });
 
 
         setMessage(
@@ -946,8 +968,8 @@ function readPhoto() {
           const base64 =
             commaIndex >= 0
               ? result.substring(
-                  commaIndex + 1
-                )
+                commaIndex + 1
+              )
               : result;
 
 
@@ -988,9 +1010,7 @@ function readPhoto() {
    EDIT
    ========================================================= */
 
-function editEmployee(
-  employeeNo
-) {
+function editEmployee(employeeNo) {
 
   const employee =
     employees.find(
@@ -1057,6 +1077,15 @@ function editEmployee(
     .value =
     employee.phone ||
     '';
+
+  const bloodGroup = getEmployeeBloodGroup(employee);
+  $('blood').value = bloodGroup;
+  employee.bloodGroup = bloodGroup;
+  console.debug('[Blood Group] Edit form populated:', {
+    employeeNo: employee.employeeNo,
+    receivedBloodGroup: employee.bloodGroup || employee.blood_group || employee.blood || '',
+    bloodGroup
+  });
 
 
   $('joiningDate')
@@ -1344,9 +1373,19 @@ function showEmployeeCardByNo(
    SHOW CARD
    ========================================================= */
 
+function getEmployeeBloodGroup(employee) {
+  if (!employee) return '';
+  return String(
+    employee.bloodGroup || employee.blood_group || employee.blood || ''
+  ).trim();
+}
+
 function showEmployeeCard(
   employee
 ) {
+
+  console.log('Employee data:', employee);
+  console.log('Blood group:', getEmployeeBloodGroup(employee));
 
   if (!employee) {
     return;
@@ -1378,6 +1417,13 @@ function showEmployeeCard(
     employee.designation ||
     'DESIGNATION';
 
+  if ($('cardBloodGroup')) $('cardBloodGroup').textContent = getEmployeeBloodGroup(employee) || '—';
+  console.debug('[Blood Group] ID card rendered:', {
+    employeeNo: employee.employeeNo,
+    bloodGroup: getEmployeeBloodGroup(employee),
+    displayedValue: $('cardBloodGroup') && $('cardBloodGroup').textContent
+  });
+
 
   $('cardEmployeeNo')
     .textContent =
@@ -1385,10 +1431,10 @@ function showEmployeeCard(
     '—';
 
 
-  $('cardDepartment')
-    .textContent =
-    employee.department ||
-    '—';
+  // $('cardDepartment')
+  //   .textContent =
+  //   employee.department ||
+  //   '—';
 
 
   $('cardJoiningDate')
@@ -1396,6 +1442,8 @@ function showEmployeeCard(
     formatDisplayDate(
       employee.joiningDate
     );
+
+  const bloodGroup = getEmployeeBloodGroup(employee);
 
 
   const isInactive = (employee.status || '').toLowerCase() === 'inactive';
@@ -1416,6 +1464,9 @@ function showEmployeeCard(
   if ($('cardBackEmail')) $('cardBackEmail').textContent = employee.email || '—';
   if ($('cardBackBarcodeText')) $('cardBackBarcodeText').textContent = '* ' + (employee.employeeNo || 'DIT00000') + ' *';
 
+  if ($('cardBloodGroup')) {
+    $('cardBloodGroup').textContent = getEmployeeBloodGroup(employee) || '—';
+  }
 
   updateCardPhoto(
     employee.photoUrl
@@ -1583,7 +1634,7 @@ function generateQr(
   if (
     !url ||
     typeof QRious ===
-      'undefined'
+    'undefined'
   ) {
 
     return;
@@ -1715,6 +1766,8 @@ function clearFormFieldsOnly() {
 
   $('phone')
     .value = '';
+
+  $('blood').value = '';
 
 
   $('joiningDate')
@@ -1985,7 +2038,7 @@ function escapeAttr(
 $('photo')
   .addEventListener(
     'change',
-    function() {
+    function () {
 
       const file =
         this.files &&
@@ -2077,22 +2130,23 @@ $('photo')
   'name',
   'designation',
   'department',
-  'joiningDate'
+  'joiningDate',
+  'blood'
 ]
-.forEach(
-  id => {
+  .forEach(
+    id => {
 
-    $(id)
-      .addEventListener(
-        'input',
-        () => {
+      $(id)
+        .addEventListener(
+          'input',
+          () => {
 
-          updateUnsavedPreview();
+            updateUnsavedPreview();
 
-        }
-      );
-  }
-);
+          }
+        );
+    }
+  );
 
 
 function updateUnsavedPreview() {
@@ -2124,6 +2178,8 @@ function updateUnsavedPreview() {
   const joiningDate =
     $('joiningDate')
       .value;
+
+  const bloodGroup = $('blood') ? $('blood').value.trim() : '';
 
 
   if (
@@ -2157,6 +2213,8 @@ function updateUnsavedPreview() {
     designation ||
     'DESIGNATION';
 
+  if ($('cardBloodGroup')) $('cardBloodGroup').textContent = bloodGroup || '—';
+
 
   $('cardEmployeeNo')
     .textContent =
@@ -2164,18 +2222,18 @@ function updateUnsavedPreview() {
     '—';
 
 
-  $('cardDepartment')
-    .textContent =
-    department ||
-    '—';
+  const cardDepartment = $('cardDepartment');
+  if (cardDepartment) {
+    cardDepartment.textContent = department || '—';
+  }
 
 
   $('cardJoiningDate')
     .textContent =
     joiningDate
       ? formatDisplayDate(
-          joiningDate
-        )
+        joiningDate
+      )
       : '—';
 
 
@@ -2210,7 +2268,7 @@ function updateUnsavedPreview() {
 $('adminPin')
   .addEventListener(
     'keydown',
-    function(event) {
+    function (event) {
 
       if (
         event.key ===
@@ -2229,7 +2287,7 @@ $('adminPin')
 
 document.addEventListener(
   'DOMContentLoaded',
-  function() {
+  function () {
 
     restoreSession();
 

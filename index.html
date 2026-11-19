@@ -405,6 +405,16 @@
 
             </div>
 
+            <div class="form-row">
+              <div class="form-group">
+
+                <label for="blood">Blood Group</label>
+
+                <input id="blood" placeholder="A1 +ve">
+
+              </div>
+            </div>
+
             <!-- PHOTO -->
 
             <div class="photo-section">
@@ -511,6 +521,7 @@
 
               <div class="id-card-body">
 
+                <div class="photo-blood-layout">
                 <div id="cardPhotoContainer" class="employee-photo-frame">
                   <div class="photo-inner-wrap">
                     <div id="cardPhotoPlaceholder" class="photo-placeholder">
@@ -519,14 +530,12 @@
                     </div>
                     <img id="cardPhoto" class="employee-photo hidden" alt="Employee Photo">
                   </div>
-                  <div class="status-badge-chip" id="cardStatusChip">
 
-                    <span class="status-dot-pulse"></span>
-
-                    <span id="cardStatusText">ACTIVE</span>
-
-                  </div>
-
+                </div>
+                <div class="blood-group-badge" aria-label="Blood group">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5C9.1 6.7 5 11.1 5 15.1a7 7 0 0 0 14 0c0-4-4.1-8.4-7-12.6Z" fill="currentColor"/><path d="M8.5 15.5a3.5 3.5 0 0 0 3.5 3.5" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="1.5"/></svg>
+                  <strong id="cardBloodGroup">—</strong>
+                </div>
                 </div>
 
                 <h2 id="cardName" class="employee-card-name">Employee Name</h2>
@@ -549,27 +558,19 @@
 
                   <div class="detail-card-item">
 
-                    <span class="detail-lbl">Department</span>
-
-                    <strong id="cardDepartment" class="detail-val">—</strong>
-
-                  </div>
-
-                  <div class="detail-card-item">
-
-                    <span class="detail-lbl">Issue Date</span>
+                    <span class="detail-lbl">Joining Date</span>
 
                     <strong id="cardJoiningDate" class="detail-val">—</strong>
 
                   </div>
 
-                  <div class="detail-card-item">
+                  <!-- <div class="detail-card-item">
 
                     <span class="detail-lbl">Badge Type</span>
 
                     <strong class="detail-val">Permanent</strong>
 
-                  </div>
+                  </div> -->
 
                 </div>
 
@@ -583,7 +584,7 @@
 
                   <div class="qr-compact-info">
 
-                    <div class="qr-compact-title"><span>🔒</span> Verified ID</div>
+                    <div class="qr-compact-title">Verified ID</div>
 
                     <div class="qr-compact-sub">Scan with camera to verify official employment credentials.</div>
 
@@ -645,7 +646,7 @@
 
                   <div class="back-row">
 
-                    <span class="b-lbl">Corporate Email</span>
+                    <span class="b-lbl">Email</span>
 
                     <strong id="cardBackEmail" class="b-val">—</strong>
 
@@ -675,9 +676,10 @@
 
                   <p class="addr-text">
 
-                    <strong>Dilshaj Infotech Corporate HQ</strong><br>
+                    <strong>Dilshaj Infotech</strong><br>
 
-                    Tech Park, Cyber Towers, Hyderabad, TS - 500081<br>
+                    225-2A, Narsipatnam, Rolugunta, Visakhapatnam, <br>
+                    Andhra Pradesh - 531114<br>
 
                     Support: support@dilshajinfotech.com
 
@@ -687,13 +689,13 @@
 
                 <div class="back-bottom-meta">
 
-                  <div class="barcode-card">
+                  <!-- <div class="barcode-card">
 
                     <div class="barcode-lines"></div>
 
                     <span class="barcode-text" id="cardBackBarcodeText">* DIT22025 *</span>
 
-                  </div>
+                  </div> -->
 
                   <div class="signatory-card">
 

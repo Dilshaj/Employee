@@ -158,7 +158,7 @@ button {
 
   font-size: 12px;
 
-  color: rgba(255,255,255,.65);
+  color: rgba(255, 255, 255, .65);
 
   letter-spacing: .5px;
 }
@@ -189,7 +189,7 @@ button {
   background: var(--primary-light);
 
   border:
-    1px solid rgba(0,94,242,.18);
+    1px solid rgba(0, 94, 242, .18);
 
   color: var(--navy);
 
@@ -256,11 +256,9 @@ button {
   padding: 40px 20px;
 
   background:
-    radial-gradient(
-      circle at top,
+    radial-gradient(circle at top,
       #edf5ff,
-      #f4f6f9 55%
-    );
+      #f4f6f9 55%);
 }
 
 
@@ -296,7 +294,7 @@ button {
 
   margin-bottom: 22px;
 
-  box-shadow: 0 4px 16px rgba(0,94,242,.18);
+  box-shadow: 0 4px 16px rgba(0, 94, 242, .18);
 }
 
 
@@ -362,8 +360,7 @@ button {
   border-color: var(--primary);
 
   box-shadow:
-    0 0 0 3px
-    rgba(0,94,242,.14);
+    0 0 0 3px rgba(0, 94, 242, .14);
 }
 
 
@@ -380,11 +377,9 @@ button {
   border-radius: 9px;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       var(--primary),
-      var(--accent)
-    );
+      var(--accent));
 
   color: white;
 
@@ -936,7 +931,7 @@ button {
 }
 
 .form-group label,
-.photo-section > label {
+.photo-section>label {
   display: block;
   margin-bottom: 4px;
   font-size: 11.5px;
@@ -1185,6 +1180,7 @@ button {
 .id-card-container.show-front .id-card-front {
   display: flex;
 }
+
 .id-card-container.show-front .id-card-back {
   display: none !important;
 }
@@ -1192,6 +1188,7 @@ button {
 .id-card-container.show-back .id-card-front {
   display: none !important;
 }
+
 .id-card-container.show-back .id-card-back {
   display: flex;
 }
@@ -1309,9 +1306,41 @@ button {
 
 /* PHOTO FRAME & STATUS */
 
+.photo-blood-layout {
+  position: relative;
+  width: max-content;
+  margin: 0 auto 10px;
+}
+
+.photo-blood-layout .employee-photo-frame {
+  margin: 0;
+}
+
+.blood-group-badge {
+  position: absolute;
+  top: 12px;
+  left: calc(100% + 20px);
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 5px 7px;
+  border: 1px solid #f2b8bd;
+  border-radius: 20px;
+  background: #fff;
+  color: #c62838;
+  box-shadow: 0 2px 7px rgba(71, 18, 24, .12);
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.blood-group-badge svg {
+  width: 15px;
+  height: 15px;
+}
+
 .employee-photo-frame {
-  width: 114px;
-  height: 136px;
+  width: 134px;
+  height: 176px;
   margin: 0 auto 10px;
   position: relative;
   border-radius: 14px;
@@ -1410,7 +1439,7 @@ button {
   font-weight: 800;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  line-height: 1.2;
+  line-height: 1;
   word-break: break-word;
 }
 
@@ -1420,53 +1449,56 @@ button {
 
 .employee-card-designation {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(241, 3, 133, 0.08), rgba(0, 94, 242, 0.08));
+  /* background: linear-gradient(135deg, rgba(241, 3, 133, 0.08), rgba(0, 94, 242, 0.08)); */
   color: var(--accent);
-  border: 1px solid rgba(241, 3, 133, 0.25);
+  /* border: 1px solid rgba(241, 3, 133, 0.25); */
   border-radius: 16px;
   padding: 2.5px 10px;
   font-size: 9.5px;
   font-weight: 800;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  box-shadow: 0 1px 4px rgba(241, 3, 133, 0.06);
+  /* box-shadow: 0 1px 4px rgba(241, 3, 133, 0.06); */
 }
 
 
 /* 2x2 DETAILS GRID */
 
 .employee-details-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 100%;
   margin-bottom: 10px;
-  text-align: left;
 }
 
 .detail-card-item {
-  background: #ffffff;
-  border: 1px solid #e2eaf5;
-  border-radius: 8px;
-  padding: 5px 8px;
   display: flex;
-  flex-direction: column;
-  box-shadow: 0 1px 3px rgba(1, 18, 100, 0.02);
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  padding: 3px 0;
 }
 
 .detail-lbl {
-  font-size: 8px;
+  width: 100px;
+  text-align: right;
+  font-size: 11px;
   font-weight: 700;
   color: #728399;
-  text-transform: uppercase;
   letter-spacing: 0.4px;
-  margin-bottom: 1px;
 }
 
 .detail-val {
+  width: 100px;
+  text-align: left;
   font-size: 10.5px;
   font-weight: 800;
   color: #17233a;
-  word-break: break-word;
 }
 
 .detail-val.val-primary {
@@ -1625,7 +1657,7 @@ button {
 }
 
 .return-address-box {
-  padding: 1px 2px;
+  padding: 5px 4px;
 }
 
 .addr-title {
@@ -1633,7 +1665,7 @@ button {
   font-weight: 800;
   color: var(--accent);
   letter-spacing: 0.6px;
-  margin-bottom: 1px;
+  margin-bottom: 5px;
 }
 
 .addr-text {
@@ -1664,25 +1696,23 @@ button {
 .barcode-lines {
   height: 18px;
   width: 120px;
-  background: repeating-linear-gradient(
-    90deg,
-    #011264 0px,
-    #011264 2px,
-    transparent 2px,
-    transparent 4px,
-    #011264 4px,
-    #011264 6px,
-    transparent 6px,
-    transparent 7px,
-    #011264 7px,
-    #011264 9px,
-    transparent 9px,
-    transparent 12px,
-    #011264 12px,
-    #011264 15px,
-    transparent 15px,
-    transparent 16px
-  );
+  background: repeating-linear-gradient(90deg,
+      #011264 0px,
+      #011264 2px,
+      transparent 2px,
+      transparent 4px,
+      #011264 4px,
+      #011264 6px,
+      transparent 6px,
+      transparent 7px,
+      #011264 7px,
+      #011264 9px,
+      transparent 9px,
+      transparent 12px,
+      #011264 12px,
+      #011264 15px,
+      transparent 15px,
+      transparent 16px);
   border-radius: 2px;
 }
 
@@ -1923,25 +1953,23 @@ button {
 
   width: 140px;
 
-  background: repeating-linear-gradient(
-    90deg,
-    #011264 0px,
-    #011264 2px,
-    transparent 2px,
-    transparent 4px,
-    #011264 4px,
-    #011264 6px,
-    transparent 6px,
-    transparent 7px,
-    #011264 7px,
-    #011264 9px,
-    transparent 9px,
-    transparent 12px,
-    #011264 12px,
-    #011264 15px,
-    transparent 15px,
-    transparent 16px
-  );
+  background: repeating-linear-gradient(90deg,
+      #011264 0px,
+      #011264 2px,
+      transparent 2px,
+      transparent 4px,
+      #011264 4px,
+      #011264 6px,
+      transparent 6px,
+      transparent 7px,
+      #011264 7px,
+      #011264 9px,
+      transparent 9px,
+      transparent 12px,
+      #011264 12px,
+      #011264 15px,
+      transparent 15px,
+      transparent 16px);
 
   border-radius: 2px;
 }
@@ -2281,12 +2309,7 @@ button {
   display: grid;
 
   grid-template-columns:
-    1.1fr
-    1.35fr
-    1.2fr
-    1.1fr
-    .8fr
-    1.5fr;
+    1.1fr 1.35fr 1.2fr 1.1fr .8fr 1.5fr;
 
   align-items: center;
 }
@@ -2455,8 +2478,7 @@ button {
   font-size: 13px;
 
   box-shadow:
-    0 10px 30px
-    rgba(0,0,0,.18);
+    0 10px 30px rgba(0, 0, 0, .18);
 }
 
 
