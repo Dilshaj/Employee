@@ -19,8 +19,7 @@ const HEADERS = [
   'Secure Token',
   'Created At',
   'Updated At',
-  'Status',
-  'Blood Group'
+  'Status'
 ];
 
 function doGet(e) {
@@ -192,7 +191,6 @@ function logout_(token) {
   }
 }
 
-
 function saveEmployee_(data) {
   if (!data) {
     throw new Error('Employee data is missing.');
@@ -201,29 +199,22 @@ function saveEmployee_(data) {
   const employeeNo = String(data.employeeNo || '').trim();
   const name = String(data.name || '').trim();
   const designation = String(data.designation || '').trim();
-  const bloodGroup = String(
-    data.bloodGroup || data.blood_group || data.blood || ''
-  ).trim();
 
   if (!employeeNo) throw new Error('Employee No is required.');
   if (!name) throw new Error('Employee Name is required.');
   if (!designation) throw new Error('Designation is required.');
 
   const sheet = getSpreadsheet_().getSheetByName(CONFIG.SHEET_NAME);
-
   if (!sheet) {
     throw new Error('Employees sheet not found. Run setup().');
   }
 
-  const bloodGroupColumn = ensureBloodGroupColumn_(sheet);
   const lastRow = sheet.getLastRow();
-
   const rows = lastRow >= 2
-    ? sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).getValues()
+    ? sheet.getRange(2, 1, lastRow - 1, HEADERS.length).getValues()
     : [];
 
   const originalEmployeeNo = String(data.originalEmployeeNo || '').trim();
-
   let rowNumber = -1;
   let existingRow = null;
 
@@ -268,26 +259,16 @@ function saveEmployee_(data) {
     token,
     existingRow ? existingRow[9] || now : now,
     now,
-    String(data.status || 'Active'),
+    String(data.status || 'Active')
   ];
 
-  const newRow = existingRow
-    ? existingRow.slice()
-    : new Array(Math.max(sheet.getLastColumn(), bloodGroupColumn)).fill('');
-
-  row.forEach((value, index) => {
-    newRow[index] = value;
-  });
-
-  newRow[bloodGroupColumn - 1] = bloodGroup;
-
   if (rowNumber === -1) {
-    sheet.appendRow(newRow);
+    sheet.appendRow(row);
   } else {
-    sheet.getRange(rowNumber, 1, 1, newRow.length).setValues([newRow]);
+    sheet.getRange(rowNumber, 1, 1, HEADERS.length).setValues([row]);
   }
 
-  return adminEmployee_(newRow, bloodGroupColumn - 1);
+  return adminEmployee_(row);
 }
 
 function getEmployees_() {
@@ -298,9 +279,9 @@ function getEmployees_() {
   }
 
   return sheet
-    .getRange(2, 1, sheet.getLastRow() - 1, Math.max(sheet.getLastColumn(), HEADERS.length))
+    .getRange(2, 1, sheet.getLastRow() - 1, HEADERS.length)
     .getValues()
-    .map(row => adminEmployee_(row, bloodGroupColumnIndex_(sheet)));
+    .map(adminEmployee_);
 }
 
 function getEmployeeByToken_(token) {
@@ -313,7 +294,7 @@ function getEmployeeByToken_(token) {
   if (!sheet || sheet.getLastRow() < 2) return null;
 
   const rows = sheet
-    .getRange(2, 1, sheet.getLastRow() - 1, Math.max(sheet.getLastColumn(), HEADERS.length))
+    .getRange(2, 1, sheet.getLastRow() - 1, HEADERS.length)
     .getValues();
 
   for (const row of rows) {
@@ -329,8 +310,7 @@ function getEmployeeByToken_(token) {
         department: String(row[3] || ''),
         joiningDate: formatDate_(row[6]),
         photoUrl: String(row[7] || ''),
-        status: String(row[11] || 'Active'),
-        bloodGroup: String(row[bloodGroupColumnIndex_(sheet)] || '')
+        status: String(row[11] || 'Active')
       };
     }
   }
@@ -425,7 +405,7 @@ function getPhotoFolder_() {
   return DriveApp.createFolder(CONFIG.PHOTO_FOLDER_NAME);
 }
 
-function adminEmployee_(row, bloodGroupIndex) {
+function adminEmployee_(row) {
   return {
     employeeNo: String(row[0] || ''),
     name: String(row[1] || ''),
@@ -436,31 +416,8 @@ function adminEmployee_(row, bloodGroupIndex) {
     joiningDate: formatDate_(row[6]),
     photoUrl: String(row[7] || ''),
     token: String(row[8] || ''),
-    status: String(row[11] || 'Active'),
-    bloodGroup: String(row[bloodGroupIndex === undefined ? 12 : bloodGroupIndex] || '')
+    status: String(row[11] || 'Active')
   };
-}
-
-function bloodGroupColumnIndex_(sheet) {
-  const lastColumn = Math.max(sheet.getLastColumn(), HEADERS.length);
-  const headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
-  const index = headers.findIndex(header =>
-    String(header || '').trim().toLowerCase().replace(/[^a-z]/g, '') === 'bloodgroup'
-  );
-  return index === -1 ? 12 : index;
-}
-
-function ensureBloodGroupColumn_(sheet) {
-  const lastColumn = Math.max(sheet.getLastColumn(), HEADERS.length);
-  const headers = sheet.getRange(1, 1, 1, lastColumn).getDisplayValues()[0];
-  const existingIndex = headers.findIndex(header =>
-    String(header || '').trim().toLowerCase().replace(/[^a-z]/g, '') === 'bloodgroup'
-  );
-  if (existingIndex !== -1) return existingIndex + 1;
-
-  const column = Math.max(sheet.getLastColumn() + 1, HEADERS.length);
-  sheet.getRange(1, column).setValue('Blood Group').setFontWeight('bold');
-  return column;
 }
 
 function formatDate_(value) {
