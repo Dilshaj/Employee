@@ -1650,7 +1650,7 @@ function generateQr(
       url,
 
     size:
-      85,
+      164,
 
     level:
       'H',

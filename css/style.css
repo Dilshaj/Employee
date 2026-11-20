@@ -1297,10 +1297,10 @@ button {
 .id-card-body {
   padding: 14px 18px 14px;
   text-align: center;
-  background:
+  /* background:
     radial-gradient(circle at 50% 0%, rgba(0, 94, 242, 0.03) 0%, transparent 70%),
     linear-gradient(180deg, #ffffff 0%, #f7f9fd 100%);
-  flex: 1;
+  flex : 1; */
 }
 
 
@@ -1528,35 +1528,35 @@ button {
   background: #ffffff;
   padding: 3px;
   border-radius: 5px;
-  border: 1px solid #eef2f7;
+  /* border: 1px solid #eef2f7; */
 }
 
 .qr-compact-box canvas {
   display: block;
-  width: 68px !important;
-  height: 68px !important;
+  width: 82px !important;
+  height: 82px !important;
 }
 
 .qr-compact-info {
   text-align: left;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .qr-compact-title {
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 800;
   color: var(--navy);
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
 }
 
 .qr-compact-sub {
-  font-size: 8px;
+  font-size: 8.5px;
   color: #64758d;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 
