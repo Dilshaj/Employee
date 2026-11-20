@@ -1297,10 +1297,10 @@ button {
 .id-card-body {
   padding: 14px 18px 14px;
   text-align: center;
-  /* background:
+  background:
     radial-gradient(circle at 50% 0%, rgba(0, 94, 242, 0.03) 0%, transparent 70%),
     linear-gradient(180deg, #ffffff 0%, #f7f9fd 100%);
-  flex : 1; */
+  flex : 1;
 }
 
 /* .id-card-body {
@@ -1317,18 +1317,18 @@ button {
 
   position: relative;
 } */
-/* 
-.id-card-body {
+
+/* .id-card-body {
   flex: 1;
   padding: 14px 18px;
   text-align: center;
 
   background: linear-gradient(
     165deg,
-    #ffffff 0%,
-    #ffffff 40%,
-    #003b9f 40.2%,
-    #011264 100%
+    #eeafd7 0%,
+    #eeafd7 40%,
+    #0984cc 40.2%,
+    #0984cc 100%
   );
 
   position: relative;
@@ -1466,7 +1466,8 @@ button {
 .employee-card-name {
   margin: 0;
   color: var(--navy);
-  font-size: 15px;
+  /* color: white; */
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.4px;
   text-transform: uppercase;
@@ -1485,7 +1486,7 @@ button {
   /* border: 1px solid rgba(241, 3, 133, 0.25); */
   border-radius: 16px;
   padding: 2.5px 10px;
-  font-size: 9.5px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -1521,6 +1522,7 @@ button {
   font-size: 11px;
   font-weight: 700;
   color: #728399;
+  /* color: white; */
   letter-spacing: 0.4px;
 }
 

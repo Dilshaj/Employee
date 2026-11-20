@@ -451,11 +451,6 @@ async function loadEmployees() {
         ? result.employees
         : [];
 
-    // console.debug('[Blood Group] Employees loaded:', employees.map(employee => ({
-    //   employeeNo: employee.employeeNo,
-    //   bloodGroup: getEmployeeBloodGroup(employee)
-    // })));
-
 
     renderEmployees();
 
@@ -787,11 +782,6 @@ $('employeeForm')
               .value
               .trim(),
 
-          // bloodGroup:
-          //   $('blood')
-          //     .value
-          //     .trim(),
-
           joiningDate:
             $('joiningDate')
               .value,
@@ -803,14 +793,6 @@ $('employeeForm')
           photo:
             photo
         };
-
-        // console.debug('[Blood Group] Save request:', {
-        //   employeeNo: data.employeeNo,
-        //   bloodGroup: data.bloodGroup
-        // });
-
-        // console.log('Blood input value:', $('blood').value);
-        // console.log('Complete save data:', data);
 
         const result =
           await apiPost({
@@ -825,12 +807,6 @@ $('employeeForm')
 
         const employee =
           result.employee;
-
-        // console.debug('[Blood Group] Save response:', {
-        //   employeeNo: employee && employee.employeeNo,
-        //   bloodGroup: employee && getEmployeeBloodGroup(employee)
-        // });
-
 
         setMessage(
           'saveMessage',
@@ -1077,16 +1053,6 @@ function editEmployee(employeeNo) {
     .value =
     employee.phone ||
     '';
-
-  // const bloodGroup = getEmployeeBloodGroup(employee);
-  // $('blood').value = bloodGroup;
-  // employee.bloodGroup = bloodGroup;
-  // console.debug('[Blood Group] Edit form populated:', {
-  //   employeeNo: employee.employeeNo,
-  //   receivedBloodGroup: employee.bloodGroup || employee.blood_group || employee.blood || '',
-  //   bloodGroup
-  // });
-
 
   $('joiningDate')
     .value =
@@ -1373,24 +1339,13 @@ function showEmployeeCardByNo(
    SHOW CARD
    ========================================================= */
 
-// function getEmployeeBloodGroup(employee) {
-//   if (!employee) return '';
-//   return String(
-//     employee.bloodGroup || employee.blood_group || employee.blood || ''
-//   ).trim();
-// }
-
 function showEmployeeCard(
   employee
 ) {
 
-  // console.log('Employee data:', employee);
-  // console.log('Blood group:', getEmployeeBloodGroup(employee));
-
   if (!employee) {
     return;
   }
-
 
   currentEmployee =
     employee;
@@ -1417,13 +1372,6 @@ function showEmployeeCard(
     employee.designation ||
     'DESIGNATION';
 
-  // if ($('cardBloodGroup')) $('cardBloodGroup').textContent = getEmployeeBloodGroup(employee) || '—';
-  // console.debug('[Blood Group] ID card rendered:', {
-  //   employeeNo: employee.employeeNo,
-  //   bloodGroup: getEmployeeBloodGroup(employee),
-  //   displayedValue: $('cardBloodGroup') && $('cardBloodGroup').textContent
-  // });
-
 
   $('cardEmployeeNo')
     .textContent =
@@ -1443,8 +1391,6 @@ function showEmployeeCard(
       employee.joiningDate
     );
 
-  // const bloodGroup = getEmployeeBloodGroup(employee);
-
 
   const isInactive = (employee.status || '').toLowerCase() === 'inactive';
   const statusChip = $('cardStatusChip');
@@ -1463,10 +1409,6 @@ function showEmployeeCard(
   if ($('cardBackPhone')) $('cardBackPhone').textContent = employee.phone || '—';
   if ($('cardBackEmail')) $('cardBackEmail').textContent = employee.email || '—';
   if ($('cardBackBarcodeText')) $('cardBackBarcodeText').textContent = '* ' + (employee.employeeNo || 'DIT00000') + ' *';
-
-  // if ($('cardBloodGroup')) {
-  //   $('cardBloodGroup').textContent = getEmployeeBloodGroup(employee) || '—';
-  // }
 
   updateCardPhoto(
     employee.photoUrl
@@ -1766,8 +1708,6 @@ function clearFormFieldsOnly() {
 
   $('phone')
     .value = '';
-
-  // $('blood').value = '';
 
 
   $('joiningDate')
@@ -2131,7 +2071,6 @@ $('photo')
   'designation',
   'department',
   'joiningDate',
-  // 'blood'
 ]
   .forEach(
     id => {
@@ -2179,8 +2118,6 @@ function updateUnsavedPreview() {
     $('joiningDate')
       .value;
 
-  // const bloodGroup = $('blood') ? $('blood').value.trim() : '';
-
 
   if (
     !name &&
@@ -2212,8 +2149,6 @@ function updateUnsavedPreview() {
     .textContent =
     designation ||
     'DESIGNATION';
-
-  // if ($('cardBloodGroup')) $('cardBloodGroup').textContent = bloodGroup || '—';
 
 
   $('cardEmployeeNo')
