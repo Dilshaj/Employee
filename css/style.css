@@ -1303,6 +1303,37 @@ button {
   flex : 1; */
 }
 
+/* .id-card-body {
+  flex: 1;
+  padding: 14px 18px;
+  text-align: center;
+
+  background:
+    linear-gradient(165deg,
+      #011264 0%,
+      #003b9f 40%,
+      #ffffff 25.2%,
+      #ffffff 100%);
+
+  position: relative;
+} */
+/* 
+.id-card-body {
+  flex: 1;
+  padding: 14px 18px;
+  text-align: center;
+
+  background: linear-gradient(
+    165deg,
+    #ffffff 0%,
+    #ffffff 40%,
+    #003b9f 40.2%,
+    #011264 100%
+  );
+
+  position: relative;
+} */
+
 
 /* PHOTO FRAME & STATUS */
 
